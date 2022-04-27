@@ -2,6 +2,8 @@ import { types } from "../type/types";
 import { firebase, googleAuthProvider } from "../firebase/firebase-config";
 import { finishLoading, setError, startLoading } from "./ui";
 
+import Swal from 'sweetalert2'
+
 
 export const startLoginEmailPassword = (email, password) => {
     return (dispatch) => {
@@ -9,15 +11,15 @@ export const startLoginEmailPassword = (email, password) => {
         dispatch(startLoading());
 
         firebase.auth().signInWithEmailAndPassword(email, password).then( ({ user }) => {
-            console.log(user);
+            console.log(`User ${user.uid} | auth.js`);
             setTimeout(() => {
                 dispatch( login(user.uid, user.displayName) );
                 dispatch( finishLoading() );
             }, 1500);
-          }).catch( e => {
-              console.log(e);
-                // dispatch( setError(e.message) );
-                dispatch( finishLoading() );
+          }).catch( error => {
+            console.log(error.message);
+            dispatch( finishLoading() );
+            Swal.fire('Error', error.message, 'error');
           });
     };
 };
@@ -56,7 +58,10 @@ export const startRegisterWithEmailPassword = (email, password, name) => {
           // ? actualizamos de una vez el displayName porque no se lo devuelve por defecto cuando se crea el usuario en firebase
           await user.updateProfile({displayName: name});
           dispatch( login(user.uid, user.displayName) );
-        }).catch( console.log );
+        }).catch( error => {
+          console.log(error.message);
+          Swal.fire('Error', error.message, 'error');
+        } );
 
     };
 };

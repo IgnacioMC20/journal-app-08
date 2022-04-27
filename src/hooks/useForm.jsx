@@ -7,8 +7,8 @@ export const useForm = ( initialState = {} ) => {
     const [values, setValues] = useState(initialState)
 
     // ? limpiamos el estado mandandole el objeto con el string vacio que mandamos en el initialState (ejemplo comentado)
-    const reset = () => {
-      setValues( initialState );
+    const reset = ( newFormState = initialState) => {
+      setValues( newFormState );
     //   setValues( { descripcion: '', } );
     }
 
