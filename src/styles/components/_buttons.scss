@@ -26,6 +26,16 @@
     }
 }
 
+.btn-danger{
+    background-color: rgb(172, 11, 11);
+    transition: 0.3s ease;
+
+    &:hover{
+        background-color: rgb(134, 9, 9);
+        
+    }
+}
+
 .btn-block{
     width: 100%;
 }
